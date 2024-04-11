@@ -63,7 +63,7 @@ namespace TecieTelegram
             switch (recieved.ToLower())
             {
                 case "/start":
-                    await bot.SendTextMessageAsync(update.Message.Chat.Id, "Hello! What would you like a link to?\nTelegram Channel -> /TC\nTelegram Group -> /TG\nDiscord -> /Dis\nVRChat group -> /VRC");
+                    await bot.SendTextMessageAsync(update.Message.Chat.Id, "Hello! What would you like a link to?\nTelegram Channel -> /TC\nTelegram Group -> /TG\nDiscord -> /DS\nVRChat group -> /VRC");
                     break;
                 case "/tc":
                     await bot.SendTextMessageAsync(update.Message.Chat.Id, "You can join the Telegram Channel here: https://t.me/thenergeticon for updates and annoucements!");
@@ -122,20 +122,24 @@ namespace TecieTelegram
                     case "A":
                         post = message;
                         botClient.SendTextMessageAsync(ChannelId, post);
+                        ss.WriteString("SUCCESS");
                         break;
                     case "E":
                         EventPingInfo eventinfo = JsonConvert.DeserializeObject<EventPingInfo>(message)!;
                         Console.WriteLine(JsonConvert.SerializeObject(eventinfo, Formatting.Indented));
                         post = $"An event is starting!\n\n{eventinfo.EventName}\n\n{eventinfo.EventDescription}\n\n{(eventinfo.EventLink != null ? $"Join Here! {eventinfo.EventLink}\nSee the current event here: https://thenergeticon.com/Events/currentevent" : "See the current event here: https://thenergeticon.com/Events/currentevent")}";
                         botClient.SendTextMessageAsync(ChannelId, post);
+                        ss.WriteString("SUCCESS");
                         break;
                     case "U":
                         post = $"Update: {message}";
                         botClient.SendTextMessageAsync(ChannelId, post);
+                        ss.WriteString("SUCCESS");
                         break;
                     default:
                         Console.WriteLine("Invalid operation");
-                        return;
+                        ss.WriteString("FAILURE");
+                        break;
                 }
             }
             // Catch any exception thrown just in case sumn happens
